@@ -1,0 +1,11 @@
+site_name: Tikebit
+pages:
+  - TEUR: teur.md
+  - Ownable: ownable.md
+  - Interfaces y librerías: interface.md
+
+theme: 
+  name: material
+  highlightjs: true
+  hljs_languages:
+    - solidity
