@@ -1,6 +1,8 @@
 site_name: Tikebit
 pages:
+  - TKB: tkb.md
   - TEUR: teur.md
+  - Vesting: vesting.md
   - Ownable: ownable.md
   - Interfaces y librerías: interface.md
 
