@@ -36,7 +36,7 @@
     
     
       
-        <title>Ownable - Tikebit</title>
+        <title>Vesting - Tikebit</title>
       
     
     
@@ -71,7 +71,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="../#variables" tabindex="1" class="md-skip">
+      <a href="../#tkb-tikebit-coin" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -97,7 +97,7 @@
                 Tikebit
               </span>
               <span class="md-header-nav__topic">
-                Ownable
+                Vesting
               </span>
             
           
@@ -190,18 +190,6 @@
       
       
 
-
-  <li class="md-nav__item">
-    <a href="../vesting/" title="Vesting" class="md-nav__link">
-      Vesting
-    </a>
-  </li>
-
-    
-      
-      
-      
-
   
 
 
@@ -209,18 +197,22 @@
     
     <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
     
+      
+    
     
       <label class="md-nav__link md-nav__link--active" for="__toc">
-        Ownable
+        Vesting
       </label>
     
-    <a href="./" title="Ownable" class="md-nav__link md-nav__link--active">
-      Ownable
+    <a href="./" title="Vesting" class="md-nav__link md-nav__link--active">
+      Vesting
     </a>
     
       
 <nav class="md-nav md-nav--secondary">
   
+  
+    
   
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
@@ -234,36 +226,16 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#eventos" title="Eventos" class="md-nav__link">
-    Eventos
+  <a href="#structs" title="Structs" class="md-nav__link">
+    Structs
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#modificadores" title="Modificadores" class="md-nav__link">
-    Modificadores
+  <a href="#mappings" title="Mappings" class="md-nav__link">
+    Mappings
   </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#onlyowner" title="onlyOwner()" class="md-nav__link">
-    onlyOwner()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#onlysu" title="onlySu()" class="md-nav__link">
-    onlySu()
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -283,22 +255,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#transfersuperuser" title="transferSuperUser()" class="md-nav__link">
-    transferSuperUser()
+  <a href="#addaddress" title="addAddress()" class="md-nav__link">
+    addAddress()
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#renounceownership" title="renounceOwnership()" class="md-nav__link">
-    renounceOwnership()
+  <a href="#withdraw" title="withdraw()" class="md-nav__link">
+    withdraw()
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#transferownership" title="transferOwnership()" class="md-nav__link">
-    transferOwnership()
+  <a href="#getuserbalance" title="getUserBalance()" class="md-nav__link">
+    getUserBalance()
   </a>
   
 </li>
@@ -316,6 +288,18 @@
   
 </nav>
     
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../ownable/" title="Ownable" class="md-nav__link">
+      Ownable
+    </a>
   </li>
 
     
@@ -345,6 +329,8 @@
 <nav class="md-nav md-nav--secondary">
   
   
+    
+  
   
     <label class="md-nav__title" for="__toc">Table of contents</label>
     <ul class="md-nav__list" data-md-scrollfix>
@@ -357,36 +343,16 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#eventos" title="Eventos" class="md-nav__link">
-    Eventos
+  <a href="#structs" title="Structs" class="md-nav__link">
+    Structs
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#modificadores" title="Modificadores" class="md-nav__link">
-    Modificadores
+  <a href="#mappings" title="Mappings" class="md-nav__link">
+    Mappings
   </a>
-  
-    <nav class="md-nav">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#onlyowner" title="onlyOwner()" class="md-nav__link">
-    onlyOwner()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#onlysu" title="onlySu()" class="md-nav__link">
-    onlySu()
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
   
 </li>
       
@@ -406,22 +372,22 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#transfersuperuser" title="transferSuperUser()" class="md-nav__link">
-    transferSuperUser()
+  <a href="#addaddress" title="addAddress()" class="md-nav__link">
+    addAddress()
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#renounceownership" title="renounceOwnership()" class="md-nav__link">
-    renounceOwnership()
+  <a href="#withdraw" title="withdraw()" class="md-nav__link">
+    withdraw()
   </a>
   
 </li>
         
           <li class="md-nav__item">
-  <a href="#transferownership" title="transferOwnership()" class="md-nav__link">
-    transferOwnership()
+  <a href="#getuserbalance" title="getUserBalance()" class="md-nav__link">
+    getUserBalance()
   </a>
   
 </li>
@@ -448,86 +414,123 @@
               
                 
                 
-                  <h1>Ownable</h1>
-                
-                <p>En este caso, es el código original de Open Zeppelin con varias funciones enfocadas a crear un super usuario que lo único que puede hacer es retirar los permisos a la cuenta de <em>owner</em>.</p>
+                <h1 id="tkb-tikebit-coin">TKB - Tikebit Coin</h1>
+<p>En este contrato se asignarán a cada dirección las cantidades de tokens <a href="/tkb/">TKB</a> y fecha de retirada que se hayan pactado previamente. Este contrato está destinado a guardar y congelar los tokens destinados al equipo, advisors, private sale, etc. La introducción de direcciones solo puede hacerse desde la dirección de <code>owner</code>, pero solo las direcciones apuntadas podrán retirar fondos una vez se haya pasado el tiempo necesario</p>
 <h2 id="variables">Variables</h2>
+<hr />
 <ul>
-<li><strong>owner</strong> <code>address</code> <code>public</code></li>
-<li><strong>superUser</strong> <code>address</code> <code>public</code></li>
+<li><strong>amountWithdrawn</strong> <code>uint256</code> <code>public</code> <code>constant</code></li>
+<li><strong>TKBabi</strong> <code>TKB</code> <code>public</code></li>
+<li><strong>categories</strong> <code>Category[]</code> <code>public</code></li>
 </ul>
-<h2 id="eventos">Eventos</h2>
-<pre><code>event OwnershipRenounced(address indexed previousOwner);
-event OwnershipTransferred(
-       address indexed previousOwner,
-       address indexed newOwner
-);
-event SuperUserTransferred(
-    address indexed previousSu,
-    address indexed newSu
-);
-</code></pre>
-
-<h2 id="modificadores">Modificadores</h2>
-<h3 id="onlyowner">onlyOwner()</h3>
-<p>Solo la dirección que tenga el rol de <em>owner</em> puede llamar a la función.</p>
-<pre><code>modifier onlyOwner() {
-    require(msg.sender == owner, &quot;You are not the owner.&quot;);
-    _;
+<h2 id="structs">Structs</h2>
+<hr />
+<p>Cada <code>Category</code> representa los diferentes tipos de grupos que recibirán tokens. </p>
+<pre><code>struct Category {
+    string name;
+    uint256 amount;
+    uint256 filledAmount;
+    uint256 withdrawDate;
+    mapping(address =&gt; uint) participantAmount;
 }
 </code></pre>
 
-<h3 id="onlysu">onlySu()</h3>
-<p>Solo la dirección que tenga el rol de <em>superUser</em> puede llamar a la función.</p>
-<pre><code>modifier onlySu() {
-    require(msg.sender == superUser, &quot;You are not the super user.&quot;);
-    _;
-}
+<h2 id="mappings">Mappings</h2>
+<hr />
+<p>Guarda el <code>index</code> de la <code>Category</code> a la que está asignado.</p>
+<pre><code>mapping(address =&gt; uint) userCategory;
+</code></pre>
+
+<p>Guarda las direcciones que ya han retirado su tokens.</p>
+<pre><code>mapping(address =&gt; bool) alreadyWithdrawn;
 </code></pre>
 
 <h2 id="funciones">Funciones</h2>
 <hr />
 <h3 id="constructor">constructor()</h3>
-<p>En el momento de la creación del contrato, se asigna el rol de <em>owner</em> y <em>super usuario</em> a la dirección que haya desplegado el contrato.</p>
-<pre><code>constructor() public {
-    owner = msg.sender;
-    superUser = msg.sender;
-}
-</code></pre>
-
-<h3 id="transfersuperuser">transferSuperUser()</h3>
-<p>El poseedor de los permisos <em>superUsuario</em> transfiere sus permisos a una nueva dirección. </p>
-<pre><code>function transferSuperUser(address _newSu) public onlySu {
-    require(_newSu != address(0), &quot;Adress can't be 0x0000...&quot;);
-    emit SuperUserTransferred(superUser, _newSu);
-    superUser = _newSu;
-}
-</code></pre>
-
-<p><em>Argumentos</em></p>
-<ul>
-<li><strong>_newSu</strong> <code>address</code> Dirección del nuevo super usuario.</li>
-</ul>
-<h3 id="renounceownership">renounceOwnership()</h3>
-<p>El <em>owner</em> asigna sus permisos a la cuenta 0x000... dejando de ser el owner.</p>
-<pre><code>function renounceOwnership() public onlyOwner {
-    emit OwnershipRenounced(owner);
-    owner = address(0);
-}
-</code></pre>
-
-<h3 id="transferownership">transferOwnership()</h3>
-<p>El poseedor de los permisos <em>superUsuario</em> cambia los permisos de <em>owner</em> a la dirección proporcionada.</p>
-<pre><code>function transferOwnership(address _newOwner) public onlySu {
-    require(_newOwner != address(0), &quot;Adress can't be 0x0000...&quot;);
-    emit OwnershipTransferred(owner, _newOwner);
-    owner = _newOwner;
+<p>En el momento de la creación del contrato, se generarán las <code>Category</code> que se especifiquen.</p>
+<pre><code>constructor(address _owner) 
+    public 
+{
+    categories.push(Category(&quot;Private sale&quot;, 50000000*1000000000000000000, 0, block.timestamp.add(24 weeks)));
+    categories.push(Category(&quot;Pre sale&quot;, 100000000*1000000000000000000, 0, block.timestamp.add(24 weeks)));
+    categories.push(Category(&quot;Team&quot;, 200000000*1000000000000000000, 0, block.timestamp.add(48 weeks)));
+    categories.push(Category(&quot;Advisors&quot;, 30000000*1000000000000000000, 0, block.timestamp.add(24 weeks)));
+    categories.push(Category(&quot;Partnerships&quot;, 30000000*1000000000000000000, 0, block.timestamp.add(12 weeks)));
     }
 </code></pre>
 
+<h3 id="addaddress">addAddress()</h3>
+<p>Añade una dirección a la <code>Category</code> que se indique en <code>_index</code> y se le asigna la cantidad especificada en <code>_amount</code>.
+Primero se comprueba que la dirección no sea 0x000..., que el <code>_index</code> especificado es valido y si el <code>_amount</code> añadido al total de la categoría, no pasa el limite de dicha <code>Category</code>.
+Despues se incrementa el <code>filledAmount</code> de la <code>Category</code> indicada y se le asigna el <code>_amount</code> en el mapping <code>participantAmount</code>. </p>
+<pre><code>function addAddress(
+    address _who, 
+    uint256 _amount, 
+    uint256 _index
+) 
+    public 
+    onlyOwner 
+{
+    require(_who != address(0), &quot;Address can't be 0x0000...&quot;);
+    require(_index &gt;= 0 &amp;&amp; _index &lt; categories.length.sub(1), &quot;Index has to be valid&quot;);
+    require(_amount != 0, &quot;Amount must be more than 0&quot;);
+    require(_amount.add(categories[_index].filledAmount) &lt; categories[_index].amount, &quot;Amount exceeds the limit.&quot;);
+
+    categories[_index].filledAmount = categories[_index].filledAmount.add(_amount);
+    categories[_index].participantAmount[_who] = categories[_index].participantAmount[_who].add(_amount);
+    userCategory[_who] = _index;
+}
+</code></pre>
+
 <p><em>Argumentos</em></p>
 <ul>
-<li><strong>_newOwner</strong> <code>address</code> Dirección del nuevo owner.</li>
+<li><strong>_who</strong> <code>string</code> Dirección que se va a añadir.</li>
+<li><strong>_amount</strong> <code>uint256</code> Cantidad a añadir.</li>
+<li><strong>_index</strong> <code>uint256</code> Índice de la categoría.</li>
+</ul>
+<h3 id="withdraw">withdraw()</h3>
+<p>Primero se comprueba que la dirección puede sacar ya los fondos, si ya ha retirado los fondos y si tiene algún token que poder retirar.
+Despues, se le asigna que ya ha retirado los tokens, se incrementa <code>amountWithdrawn</code> y finalmente se le transfieren los tokens <code>TKB</code>.</p>
+<pre><code>function withdraw() 
+    public 
+{
+    address _who = msg.sender;
+    require(categories[userCategory[_who]].withdrawDate &gt;= block.timestamp, &quot;You can't withdraw yet.&quot;);
+    require(!alreadyWithdrawn[_who], &quot;Already withdrawn.&quot;);
+    uint256 _amount = categories[userCategory[_who]].participantAmount[_who];
+    require(_amount != 0, &quot;You don't have any amount to withdraw&quot;);
+
+    alreadyWithdrawn[_who] = true;
+    amountWithdrawn = amountWithdrawn.add(_amount);
+    TKBabi.transfer(_who, _amount);
+}
+</code></pre>
+
+<p><em>Argumentos</em></p>
+<ul>
+<li><strong>_who</strong> <code>string</code> Dirección que se va a retirar los fondos.</li>
+</ul>
+<h3 id="getuserbalance">getUserBalance()</h3>
+<p>Devuelve la cantidad de tokens que tiene asignado <code>_who</code>.</p>
+<pre><code>function getUserBalance(
+    address _who
+) 
+    public 
+    view 
+    returns (uint) 
+{
+    return categories[userCategory[_who]].participantAmount[_who];
+}
+</code></pre>
+
+<p><em>Argumentos</em></p>
+<ul>
+<li><strong>_who</strong> <code>string</code> Dirección de la cual devolver el balance.</li>
+</ul>
+<p><strong>Devuelve</strong></p>
+<ul>
+<li><code>uint256</code> Balance del usuario.</li>
 </ul>
                 
                   
@@ -549,7 +552,7 @@ event SuperUserTransferred(
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
-          <a href="../vesting/" title="Vesting" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+          <a href="../teur/" title="TEUR" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
             <div class="md-flex__cell md-flex__cell--shrink">
               <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
             </div>
@@ -558,19 +561,19 @@ event SuperUserTransferred(
                 <span class="md-footer-nav__direction">
                   Previous
                 </span>
-                Vesting
+                TEUR
               </span>
             </div>
           </a>
         
         
-          <a href="../interface/" title="Interfaces y librerías" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+          <a href="../ownable/" title="Ownable" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Interfaces y librerías
+                Ownable
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

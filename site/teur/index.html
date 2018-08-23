@@ -166,6 +166,18 @@
       
       
 
+
+  <li class="md-nav__item">
+    <a href="../tkb/" title="TKB" class="md-nav__link">
+      TKB
+    </a>
+  </li>
+
+    
+      
+      
+      
+
   
 
 
@@ -231,6 +243,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#burn" title="burn()" class="md-nav__link">
+    burn()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mint" title="mint()" class="md-nav__link">
+    mint()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#totalsupply" title="totalSupply()" class="md-nav__link">
     totalSupply()
   </a>
@@ -280,22 +306,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#increaseapproval_1" title="increaseApproval()" class="md-nav__link">
-    increaseApproval()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#burn" title="burn()" class="md-nav__link">
-    burn()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mint" title="mint()" class="md-nav__link">
-    mint()
+  <a href="#decreaseapproval" title="decreaseApproval()" class="md-nav__link">
+    decreaseApproval()
   </a>
   
 </li>
@@ -313,6 +325,18 @@
   
 </nav>
     
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../vesting/" title="Vesting" class="md-nav__link">
+      Vesting
+    </a>
   </li>
 
     
@@ -397,6 +421,20 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#burn" title="burn()" class="md-nav__link">
+    burn()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mint" title="mint()" class="md-nav__link">
+    mint()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#totalsupply" title="totalSupply()" class="md-nav__link">
     totalSupply()
   </a>
@@ -446,22 +484,8 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#increaseapproval_1" title="increaseApproval()" class="md-nav__link">
-    increaseApproval()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#burn" title="burn()" class="md-nav__link">
-    burn()
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#mint" title="mint()" class="md-nav__link">
-    mint()
+  <a href="#decreaseapproval" title="decreaseApproval()" class="md-nav__link">
+    decreaseApproval()
   </a>
   
 </li>
@@ -489,7 +513,7 @@
                 
                 
                 <h1 id="teur-tikebit-euro">TEUR - Tikebit Euro</h1>
-<p>La funcionalidad del TEUR es sencilla, ya que es un token ERC20 con todas las funcionalidades de las interfaces ERC20Basic y ERC20, además de incluir <strong>mint</strong> y <strong>burn</strong>. </p>
+<p>La funcionalidad del TEUR es sencilla, ya que es un token ERC20 con todas las funcionalidades de las interfaces <a href="/interface/">ERC20Basic</a> y <a href="/interface/">ERC20</a>, además de incluir <strong>mint</strong> y <strong>burn</strong>. </p>
 <h2 id="variables">Variables</h2>
 <hr />
 <ul>
@@ -533,8 +557,86 @@ event TKBfee(uint256 amount);
 <ul>
 <li><strong><em>owner</em></strong> <code>address</code> Dirección del nuevo <code>owner</code> y <code>superUser</code>.</li>
 </ul>
+<h3 id="burn">burn()</h3>
+<p>Al usar esta función, se mandará un X% a el contrato TKB.
+Comprueba que <code>_amount</code> no es 0 y que el <code>msg.sender</code> tiene suficiente balance. Después calcula y asigna el % correspondiente al TKB y después resta el <code>_amount</code> al <code>msg.sender</code> y resta de <code>totalSupply_</code> el restante del <code>_amount</code> sin la cantidad enviada al TKB.</p>
+<pre><code>function burn(
+    uint256 _amount
+) 
+    public
+    onlyOwner 
+    returns (bool)
+{
+    require(_amount &gt; 0, &quot;The value must be more than 0&quot;);
+    require(_amount &lt;= balances[msg.sender], &quot;Insufficient balance.&quot;);
+    address _who = msg.sender;
+
+    uint256 _amountForTKB = _amount.mul(150).div(10000);
+    balances[TKBabi] = balances[TKBabi].add(_amountForTKB);
+    uint256 _amountWithoutFee = _amount.sub(_amountForTKB);
+
+    balances[_who] = balances[_who].sub(_amountWithoutFee);
+    totalSupply_ = totalSupply_.sub(_amountWithoutFee);
+    emit Burn(_who, _amountWithoutFee);
+    return true;
+}
+</code></pre>
+
+<p><em>Argumentos</em></p>
+<ul>
+<li><strong>_amount</strong> <code>uint256</code> Cantidad de tokens.</li>
+</ul>
+<p><em>Devuelve</em></p>
+<ul>
+<li><code>bool</code> Comprobación de que ha acabado la función.</li>
+</ul>
+<h3 id="mint">mint()</h3>
+<p>Al usar esta función, se mandará un X% a el contrato TKB y se quitará un Y% correspondiente a la comisión de la tienda que creó el tiket.
+Comprueba que <code>_amount</code> no es 0, que <code>_to</code> no sea 0x000... y que <code>_fee</code> es mayor que 0 y menor que 500. Después, calcula y quita la cantidad que se queda el CashNode y calcula la cantidad que se va al TKB y se lo asigna. Una vez ya se han sacado todas las comisiones, se aumenta el <code>totalSupply_</code> y se le asignan los tokens restantes de <code>_amount</code>.</p>
+<pre><code>function mint(
+    address _to,
+    uint256 _amount,
+    uint256 _fee
+)
+    public
+    onlyOwner
+    returns (bool)
+{
+    require(_amount &gt; 0, &quot;Amount must be more than 0&quot;);
+    require(_to != address(0), &quot;You can't send tokens to this address&quot;);
+    require(_fee &gt; 0, &quot;Fees must be more than 0&quot;);
+    require(_fee &lt; 500, &quot;Fees must be lower than 5%-500 units&quot;);
+
+    uint256 _amountCashNodeFee = _amount.mul(_fee).div(10000);
+    uint256 _amountWithoutFee = _amount.sub(_amountCashNodeFee);
+
+    totalSupply_ = totalSupply_.add(_amount);
+
+    uint256 _amountForTKB = _amount.mul(150).div(10000);
+    _amountWithoutFee = _amount.sub(_amountForTKB);
+
+    balances[_to] = balances[_to].add(_amountWithoutFee);
+    balances[TKBabi] = balances[TKBabi].add(_amountForTKB);
+
+    emit Mint(_to, _amountWithoutFee);
+    emit TKBfee(_amountForTKB);
+    emit Transfer(address(0), _to, _amountWithoutFee);
+    return true;
+}
+</code></pre>
+
+<p><em>Argumentos</em></p>
+<ul>
+<li><strong>_amount</strong> <code>uint256</code> Cantidad de tokens a crear.</li>
+<li><strong>_fee</strong> <code>uint256</code> Cantidad de tokens que se queda el CashNode.</li>
+<li><strong>_to</strong> <code>address</code> Dirección a la que enviar los tokens.</li>
+</ul>
+<p><em>Devuelve</em></p>
+<ul>
+<li><code>bool</code> Comprobación de que ha acabado la función.</li>
+</ul>
 <h3 id="totalsupply">totalSupply()</h3>
-<p>El poseedor de los permisos <em>superUsuario</em> transfiere sus permisos a una nueva dirección. </p>
+<p>Devuelve el total de tokens que hay. (Devuelve el <code>totalSupply_</code>)</p>
 <pre><code>function totalSupply() 
     public 
     view 
@@ -690,7 +792,7 @@ event TKBfee(uint256 amount);
 <ul>
 <li><code>bool</code> Comprobación de que ha acabado la función.</li>
 </ul>
-<h3 id="increaseapproval_1">increaseApproval()</h3>
+<h3 id="decreaseapproval">decreaseApproval()</h3>
 <p>Reduce la cantidad cedida de <code>msg.sender</code> a <code>_spender</code>. La cantidad se indica en <code>_subtractedValue</code>.</p>
 <pre><code>function decreaseApproval(
     address _spender,
@@ -719,84 +821,6 @@ event TKBfee(uint256 amount);
 <ul>
 <li><code>bool</code> Comprobación de que ha acabado la función.</li>
 </ul>
-<h3 id="burn">burn()</h3>
-<p>Al usar esta función, se mandará un X% a el contrato TKB.
-Comprueba que <code>_amount</code> no es 0 y que el <code>msg.sender</code> tiene suficiente balance. Después calcula y asigna el % correspondiente al TKB y después resta el <code>_amount</code> al <code>msg.sender</code> y resta de <code>totalSupply_</code> el restante del <code>_amount</code> sin la cantidad enviada al TKB.</p>
-<pre><code>function burn(
-    uint256 _amount
-) 
-    public
-    onlyOwner 
-    returns (bool)
-{
-    require(_amount &gt; 0, &quot;The value must be more than 0&quot;);
-    require(_amount &lt;= balances[msg.sender], &quot;Insufficient balance.&quot;);
-    address _who = msg.sender;
-
-    uint256 _amountForTKB = _amount.mul(150).div(10000);
-    balances[TKBabi] = balances[TKBabi].add(_amountForTKB);
-    uint256 _amountWithoutFee = _amount.sub(_amountForTKB);
-
-    balances[_who] = balances[_who].sub(_amountWithoutFee);
-    totalSupply_ = totalSupply_.sub(_amountWithoutFee);
-    emit Burn(_who, _amountWithoutFee);
-    return true;
-}
-</code></pre>
-
-<p><em>Argumentos</em></p>
-<ul>
-<li><strong>_amount</strong> <code>uint256</code> Cantidad de tokens.</li>
-</ul>
-<p><em>Devuelve</em></p>
-<ul>
-<li><code>bool</code> Comprobación de que ha acabado la función.</li>
-</ul>
-<h3 id="mint">mint()</h3>
-<p>Al usar esta función, se mandará un X% a el contrato TKB y se quitará un Y% correspondiente a la comisión de la tienda que creó el tiket.
-Comprueba que <code>_amount</code> no es 0, que <code>_to</code> no sea 0x000... y que <code>_fee</code> es mayor que 0 y menor que 500. Después, calcula y quita la cantidad que se queda el CashNode y calcula la cantidad que se va al TKB y se lo asigna. Una vez ya se han sacado todas las comisiones, se aumenta el <code>totalSupply_</code> y se le asignan los tokens restantes de <code>_amount</code>.</p>
-<pre><code>function mint(
-    address _to,
-    uint256 _amount,
-    uint256 _fee
-)
-    public
-    onlyOwner
-    returns (bool)
-{
-    require(_amount &gt; 0, &quot;Amount must be more than 0&quot;);
-    require(_to != address(0), &quot;You can't send tokens to this address&quot;);
-    require(_fee &gt; 0, &quot;Fees must be more than 0&quot;);
-    require(_fee &lt; 500, &quot;Fees must be lower than 5%-500 units&quot;);
-
-    uint256 _amountCashNodeFee = _amount.mul(_fee).div(10000);
-    uint256 _amountWithoutFee = _amount.sub(_amountCashNodeFee);
-
-    totalSupply_ = totalSupply_.add(_amount);
-
-    uint256 _amountForTKB = _amount.mul(150).div(10000);
-    _amountWithoutFee = _amount.sub(_amountForTKB);
-
-    balances[_to] = balances[_to].add(_amountWithoutFee);
-    balances[TKBabi] = balances[TKBabi].add(_amountForTKB);
-
-    emit Mint(_to, _amountWithoutFee);
-    emit TKBfee(_amountForTKB);
-    emit Transfer(address(0), _to, _amountWithoutFee);
-    return true;
-}
-</code></pre>
-
-<p><em>Argumentos</em></p>
-<ul>
-<li><strong>_amount</strong> <code>uint256</code> Cantidad de tokens a crear.</li>
-<li><strong>_fee</strong> <code>uint256</code> Cantidad de tokens que se queda el CashNode.</li>
-<li><strong>_to</strong> <code>address</code> Dirección a la que enviar los tokens.</li>
-</ul>
-<p><em>Devuelve</em></p>
-<ul>
-<li><code>bool</code> Comprobación de que ha acabado la función.</li>
-</ul>
                 
                   
                 
@@ -817,14 +841,28 @@ Comprueba que <code>_amount</code> no es 0, que <code>_to</code> no sea 0x000...
     <div class="md-footer-nav">
       <nav class="md-footer-nav__inner md-grid">
         
+          <a href="../tkb/" title="TKB" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                TKB
+              </span>
+            </div>
+          </a>
         
-          <a href="../ownable/" title="Ownable" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+        
+          <a href="../vesting/" title="Vesting" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
             <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
               <span class="md-flex__ellipsis">
                 <span class="md-footer-nav__direction">
                   Next
                 </span>
-                Ownable
+                Vesting
               </span>
             </div>
             <div class="md-flex__cell md-flex__cell--shrink">

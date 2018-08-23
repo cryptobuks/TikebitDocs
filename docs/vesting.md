@@ -1,4 +1,4 @@
-# TKB - Tikebit Coin
+# Vesting
 
 En este contrato se asignarán a cada dirección las cantidades de tokens [TKB](/tkb/) y fecha de retirada que se hayan pactado previamente. Este contrato está destinado a guardar y congelar los tokens destinados al equipo, advisors, private sale, etc. La introducción de direcciones solo puede hacerse desde la dirección de `owner`, pero solo las direcciones apuntadas podrán retirar fondos una vez se haya pasado el tiempo necesario
 
