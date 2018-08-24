@@ -1,4 +1,10 @@
-# Documentación de los tokens de Tikebit.
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt lorem justo, nec ornare dolor tincidunt id. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin sed orci et sapien consequat dignissim quis nec risus. Sed vel quam vitae erat maximus imperdiet a sed purus. Donec quis vulputate libero, a pellentesque velit. Suspendisse at purus vitae risus dapibus consequat nec nec arcu. Curabitur tristique, erat vitae ultrices hendrerit, justo ligula luctus augue, at dictum quam mauris a ligula.
+# Documentación de los tokens Tikebit.
+Aquí podrás encontrar la documentación de todos los smart contracts que forman la red de tokens Tikebit. 
 
-Ut risus lectus, tincidunt eget metus id, rutrum rutrum lacus. Suspendisse suscipit, justo ac eleifend vulputate, lacus quam sodales nulla, non tempor odio enim quis libero. Suspendisse sagittis tortor vitae dui posuere lobortis. Etiam bibendum eros vel nulla aliquet, et pellentesque quam porttitor. Quisque quis posuere felis. Pellentesque et ante cursus, semper ex eget, consequat odio. Nullam sit amet nunc lorem. Etiam aliquam molestie consequat.
+
+También puedes encontrar los contratos subidos en las diferentes redes:
+
+
+- Mainnet: [0x0000000000000000000000000000000000000000](https://etherscan.io/address/0x0000000000000000000000000000000000000000)
+- Rinkeby: [0x0000000000000000000000000000000000000000](https://etherscan.io/address/0x0000000000000000000000000000000000000000)
+- Kovan: [0x0000000000000000000000000000000000000000](https://etherscan.io/address/0x0000000000000000000000000000000000000000)

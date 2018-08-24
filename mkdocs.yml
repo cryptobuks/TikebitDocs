@@ -1,7 +1,8 @@
-site_name: Tikebit
+site_name: Tikebit Documentación
 pages:
   - TKB: tkb.md
   - TEUR: teur.md
+  - DAICO: daico.md
   - Vesting: vesting.md
   - Ownable: ownable.md
   - Interfaces y librerías: interface.md

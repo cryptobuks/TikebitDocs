@@ -5,6 +5,9 @@ El TKB implementa las funcionalidades de `ERC20Basic` y `ERC20`. La finalidad de
 
 Las transferencias estarán congeladas hasta que se termine la ICO, la variable que controla esto es `stopped`. Es posible que una vez terminada la ICO se vuelva a para el contrato, pero solo en el caso de que se pida un `refund` de la DAICO, permitiendo así ir al contrato de la DAICO a retirar ETH a razón de los tokens TKB que tengas. Esta variable no es posible cambiarla de forma manual, se descongelará una vez termine la ICO de forma automática y al pedir un `refund` mediante la DAO.
 
+
+El sístema de fechas siempre estará ligado a `dateWeek`, al iniciar el contrato, se pondrá el unix timestamp de un domingo futuro a las 00:00. De ese modo, el resto de funciones que dependen de horas/fechas, usarán la referencia al domingo. Ya que `dateWeek` será incrementado semanalmente en `1 weeks`.
+
 ## Variables
 ----
 
@@ -173,7 +176,7 @@ function _undoStake(
     uint _usedUnits = _unitsToUndoStake.sub(_rUnits);
     stake[_user].tokensStaked = stake[_user].tokensStaked.sub(_usedUnits.mul(pricePerStakeUnit));
     amountStakeUnits = amountStakeUnits.sub(_usedUnits);
-    }
+}
 ```
 _Argumentos_
 
@@ -501,27 +504,20 @@ _Devuelve_
 - `bool` Comprobación de que ha acabado la función.
 
 ### burn()
-Al usar esta función, se mandará un X% a el contrato TKB.
-Comprueba que `_amount` no es 0 y que el `msg.sender` tiene suficiente balance. Después calcula y asigna el % correspondiente al TKB y después resta el `_amount` al `msg.sender` y resta de `totalSupply_` el restante del `_amount` sin la cantidad enviada al TKB.
+Si `_amount` es mayor que 0 y menor que el `balances[msg.sender]`, se resta la cantidad `_amount` del balance de la dirección y del `totalSupply_`.
 ```
 function burn(
     uint256 _amount
 ) 
-    public
-    onlyOwner 
-    returns (bool)
+    public 
+    returns(bool)
 {
     require(_amount > 0, "The value must be more than 0");
-    require(_amount <= balances[msg.sender], "Insufficient balance.");
-    address _who = msg.sender;
+    require(_amount <= balances[msg.sender].sub(stake[msg.sender].tokensStaked), "Insufficient balance");
 
-    uint256 _amountForTKB = _amount.mul(150).div(10000);
-    balances[TKBabi] = balances[TKBabi].add(_amountForTKB);
-    uint256 _amountWithoutFee = _amount.sub(_amountForTKB);
-
-    balances[_who] = balances[_who].sub(_amountWithoutFee);
-    totalSupply_ = totalSupply_.sub(_amountWithoutFee);
-    emit Burn(_who, _amountWithoutFee);
+    balances[msg.sender] = balances[msg.sender].sub(_amount);
+    totalSupply_ = totalSupply_.sub(_amount);
+    emit Transfer(msg.sender, address(0), _amount);
     return true;
 }
 ```
@@ -535,49 +531,3 @@ _Devuelve_
 
 - `bool` Comprobación de que ha acabado la función.
 
-### mint()
-Al usar esta función, se mandará un X% a el contrato TKB y se quitará un Y% correspondiente a la comisión de la tienda que creó el tiket.
-Comprueba que `_amount` no es 0, que `_to` no sea 0x000... y que `_fee` es mayor que 0 y menor que 500. Después, calcula y quita la cantidad que se queda el CashNode y calcula la cantidad que se va al TKB y se lo asigna. Una vez ya se han sacado todas las comisiones, se aumenta el `totalSupply_` y se le asignan los tokens restantes de `_amount`.
-```
-function mint(
-    address _to,
-    uint256 _amount,
-    uint256 _fee
-)
-    public
-    onlyOwner
-    returns (bool)
-{
-    require(_amount > 0, "Amount must be more than 0");
-    require(_to != address(0), "You can't send tokens to this address");
-    require(_fee > 0, "Fees must be more than 0");
-    require(_fee < 500, "Fees must be lower than 5%-500 units");
-
-    uint256 _amountCashNodeFee = _amount.mul(_fee).div(10000);
-    uint256 _amountWithoutFee = _amount.sub(_amountCashNodeFee);
-
-    totalSupply_ = totalSupply_.add(_amount);
-
-    uint256 _amountForTKB = _amount.mul(150).div(10000);
-    _amountWithoutFee = _amount.sub(_amountForTKB);
-
-    balances[_to] = balances[_to].add(_amountWithoutFee);
-    balances[TKBabi] = balances[TKBabi].add(_amountForTKB);
-
-    emit Mint(_to, _amountWithoutFee);
-    emit TKBfee(_amountForTKB);
-    emit Transfer(address(0), _to, _amountWithoutFee);
-    return true;
-}
-```
-_Argumentos_
-
-- **_amount** `uint256` Cantidad de tokens a crear.
-- **_fee** `uint256` Cantidad de tokens que se queda el CashNode.
-- **_to** `address` Dirección a la que enviar los tokens.
-
-
-_Devuelve_
-
-
-- `bool` Comprobación de que ha acabado la función.
