@@ -242,12 +242,18 @@
     undoStake()
   </a>
   
-</li>
+    <nav class="md-nav">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#removestakeunit" title="removeStakeUnit()" class="md-nav__link">
-    removeStakeUnit()
+  <a href="#_removestakeunit" title="_removeStakeUnit()" class="md-nav__link">
+    _removeStakeUnit()
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -493,12 +499,18 @@
     undoStake()
   </a>
   
-</li>
+    <nav class="md-nav">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#removestakeunit" title="removeStakeUnit()" class="md-nav__link">
-    removeStakeUnit()
+  <a href="#_removestakeunit" title="_removeStakeUnit()" class="md-nav__link">
+    _removeStakeUnit()
   </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
         
@@ -632,7 +644,7 @@
 <li><strong>name</strong> <code>address</code> <code>public</code> <code>constant</code></li>
 <li><strong>symbol</strong> <code>address</code> <code>public</code> <code>constant</code></li>
 <li><strong>decimals</strong> <code>uint8</code> <code>public</code> <code>constant</code></li>
-<li><strong>totalSupply_</strong> <code>uint256</code> <code>internal</code></li>
+<li><strong>totalSupply_</strong> <code>uint256</code> <code>internal</code> </li>
 <li><strong>totalFeeCollected</strong> <code>uint256</code> <code>public</code></li>
 <li><strong>totalFeeWithdrawn</strong> <code>uint256</code> <code>public</code></li>
 <li><strong>dateWeek</strong> <code>uint256</code> <code>public</code></li>
@@ -729,7 +741,7 @@ function _createStake(
 
     stake[_user].tokensStaked = stake[_user].tokensStaked.add(_amountToStake);
     stake[_user].stakeUnits.push(Units(block.timestamp, _amountToStake));
-    stake[_user].dateLastWithdraw = dateWeek.add(1 weeks);
+    stake[_user].dateLastWithdraw = dateWeek;
     amountStakeUnits = amountStakeUnits.add(_unitsToStake);
 }
 </code></pre>
@@ -758,7 +770,7 @@ En la parte de la acción, se realiza un bucle donde se sigue el siguiente compo
 
     require(_unitsToUndoStake &gt; 0, &quot;Units must be more than 0.&quot;);
     uint256 _amount = _unitsToUndoStake.mul(pricePerStakeUnit);
-    require(stake[msg.sender].tokensStaked &lt;= _amount, &quot;You are trying to unstake more than you have.&quot;);
+    require(stake[msg.sender].tokensStaked &gt;= _amount, &quot;You are trying to unstake more than you have.&quot;);
     _undoStake(_unitsToUndoStake, msg.sender);
 }
 
@@ -775,7 +787,7 @@ function _undoStake(
         if(_rUnits &gt; 0 &amp;&amp; stake[_user].stakeUnits[0].dateToUnstake &lt;= block.timestamp) {
             if (stake[_user].stakeUnits[0].stakedUnits &lt;= _rUnits) {
                 _rUnits = _rUnits.sub(stake[_user].stakeUnits[0].stakedUnits);
-                removeStakeUnit(0, _user);
+                _removeStakeUnit(0, _user);
             } else { 
                 stake[_user].stakeUnits[0].stakedUnits = stake[_user].stakeUnits[0].stakedUnits.sub(_unitsToUndoStake);
                 _rUnits = 0;
@@ -794,9 +806,9 @@ function _undoStake(
 <ul>
 <li><strong>_unitsToUndoStake</strong> <code>uint256</code> Cantidad de unidades a reducir el stake.</li>
 </ul>
-<h3 id="removestakeunit">removeStakeUnit()</h3>
+<h4 id="_removestakeunit">_removeStakeUnit()</h4>
 <p>Función interna usada por el <code>undoStake()</code> para eliminar la primera entrada del array. </p>
-<pre><code>function removeStakeUnit(
+<pre><code>function _removeStakeUnit(
     uint _index, 
     address _user
 ) 
@@ -821,7 +833,7 @@ Después se añade 1 semana a <code>dateWeek</code> y se pide la cantidad de tok
 <pre><code>function calculateWeeklyFees() 
     public 
 {
-    require(block.timestamp &gt;= dateWeek+1 weeks, &quot;You can't do this yet.&quot;);
+    require(block.timestamp &gt;= dateWeek.add(1 weeks), &quot;You can't do this yet.&quot;);
     dateWeek = dateWeek.add(1 weeks);
     uint256 balanceTEUR = TEURabi.balanceOf(this);
     uint256 _fee = (balanceTEUR.add(totalFeeWithdrawn)).sub(totalFeeCollected);
@@ -844,7 +856,7 @@ Y por último, se le envian desde el <code>TEUR</code> la cantidad total de fees
     address _user = msg.sender;
     require(_user != address(0), &quot;Adress can't be 0x0000...&quot;);
     require(stake[_user].tokensStaked &gt; 0, &quot;You don't have any stake unit.&quot;);
-    require(stake[_user].dateLastWithdraw &lt;= dateWeek, &quot;You don't have fees to withdraw.&quot;);
+    require(stake[_user].dateLastWithdraw &lt; dateWeek, &quot;You don't have fees to withdraw.&quot;);
 
     uint256 _units = stake[_user].tokensStaked.div(pricePerStakeUnit.mul(decimals));
     uint256 _amountFees = 0;
